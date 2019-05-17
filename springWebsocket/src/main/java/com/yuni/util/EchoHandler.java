@@ -9,6 +9,8 @@ import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import lombok.extern.log4j.Log4j;
+import org.apache.log4j.Logger;
+@Log4j
 public class EchoHandler extends TextWebSocketHandler{
 
 	private List<WebSocketSession> sessionList = new ArrayList<>();
