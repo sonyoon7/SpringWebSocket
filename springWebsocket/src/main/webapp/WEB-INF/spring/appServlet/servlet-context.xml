@@ -28,7 +28,7 @@
 		<websocket:sockjs></websocket:sockjs>
 	</websocket:handlers>
 	
-	<beans:bean id="echoHandler" class="com.yuni.util.EchoHandler"></beans:bean>
+	<beans:bean id="echoHandler" class="com.yuni.util.EchoHandler"/>
 	
 	<context:component-scan base-package="com.yuni.app" />
 	
