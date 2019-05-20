@@ -1,27 +1,41 @@
  <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%> 
+ <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
  <!DOCTYPE html> 
  <html> 
   <head> 
   <meta charset="UTF-8"> 
   <title>Insert title here</title> 	
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.3.0/sockjs.js"></script>
+  
 
   </head> 
   <body> 
-    <script type="text/javascript">
+    <script>
+    
     $('document').ready(function() {
-        var wsUri = "ws://아이피/빈설정할때 적은 웹소켓연결할 uri";
-
-        websocket = new WebSocket(wsUri);
-//딱봐도 알거라고 믿겟음 함수명이 모든걸 말아주고있져?
+        var wsUri = "ws://localhost:9090/app/echo";
+//socket을 하나 여는데 ws로 여는 것임 어떠한 라이브러리도 추가 하지 않음  브라우져가 자체 지원하는 것임
+//new WebSocket("ws://localhost:9090/echo")
+        websocket =  new SockJS("<c:url value="/echo"/>");
+       // websocket =  new WebSocket(wsUri);
+        console.log("<c:url value="/echo"/>")
         websocket.onopen = function(evt) {
+			console.log('Info : connection opened.')
+			//setTimeout(function(){connect();},1000)//retry connection
             onOpen(evt)
+			
+			//연결이 되고 난 후 메세지를 받도록 짜기 
+            websocket.onmessage = function(evt) {
+				console.log(evt.data+'\n')
+	            onMessage(evt)
+	        };
+			
+			
         };
-//것도 메시지보내는
-        websocket.onmessage = function(evt) {
-            onMessage(evt)
-        };
+    
 //에러
-        websocket.onerror = function(evt) {
+        websocket.onerror = function(evt) { 
             onError(evt)
         };
 

@@ -25,12 +25,19 @@
 	
 	<websocket:handlers>
 		<websocket:mapping handler="echoHandler" path="/echo"/>
-		<websocket:sockjs></websocket:sockjs>
+		<!-- pom에서 websocket-api 필요함  -->
+		<!-- 로그인한 유저의 아이디를 알고 싶어서 session을 써야 하니깐 websocket session에다가 Http session을 올려줘야함 
+		 그래야 http session에 접근 할 수 있은 websocket은 기본적으로 http session을 가지고 있지 않음   -->
+		<websocket:handshake-interceptors>
+			<beans:bean class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor"></beans:bean>
+		</websocket:handshake-interceptors>
+		<websocket:sockjs/>
 	</websocket:handlers>
 	
 	<beans:bean id="echoHandler" class="com.yuni.util.EchoHandler"/>
 	
 	<context:component-scan base-package="com.yuni.app" />
+	<context:component-scan base-package="com.yuni.controller" />
 	
 	
 	
