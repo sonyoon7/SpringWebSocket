@@ -1,11 +1,10 @@
 package com.yuni.model;
 
-
 import com.google.gson.Gson;
 
 import lombok.Data;
 
-@Data
+@Data 
 public class MessageVO {
 	private String message;
 	private String type;

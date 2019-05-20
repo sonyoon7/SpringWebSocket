@@ -13,11 +13,12 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 import com.yuni.model.MessageVO;
 
 import lombok.extern.log4j.Log4j;
- @Log4j
+
+@Log4j
 public class EchoHandler extends TextWebSocketHandler {
  
     private Logger logger = LoggerFactory.getLogger(EchoHandler.class);
- 
+    
     /**
      * 서버에 연결한 사용자들을 저장하는 리스트
      */
@@ -37,8 +38,8 @@ public class EchoHandler extends TextWebSocketHandler {
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
         connectedUsers.add(session);
  
-        log.info(session.getId() + "님이 접속했습니다.");
-        log.info("연결 IP : " + session.getRemoteAddress().getHostName());
+        logger.info(session.getId() + "님이 접속했습니다.");
+        logger.info("연결 IP : " + session.getRemoteAddress().getHostName());
     }
  
     /**
@@ -53,34 +54,22 @@ public class EchoHandler extends TextWebSocketHandler {
      *            메시지의 내용
      */
     @Override
-    protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
- 
-        MessageVO messageVO = MessageVO.converMessage(message.getPayload());
-        String hostName = "";
- 
-        for (WebSocketSession webSocketSession : connectedUsers) {
-            if (messageVO.getType().equals("all")) {
-                if (!session.getId().equals(webSocketSession.getId())) {
-                    webSocketSession.sendMessage(
-                            new TextMessage(session.getRemoteAddress().getHostName() + " ▶ " + messageVO.getMessage()));
-                }
-            } else {
-                hostName = webSocketSession.getRemoteAddress().getHostName();
-                if (messageVO.getTo().equals(hostName)) {
-                    webSocketSession.sendMessage(
-                            new TextMessage(
-                                    "<span style='color:red; font-weight: bold;' >"
-                                    + session.getRemoteAddress().getHostName() + "▶ " + messageVO.getMessage()
-                                    + "</span>") );
-                    break;
-                }
-            }
+
+    protected void handleTextMessage(WebSocketSession session,
+
+         
+
+        TextMessage message) throws Exception {
+
+
+        logger.info("{}로 부터 {} 받음", session.getId(), message.getPayload());
+
+        for(WebSocketSession sess : connectedUsers){
+
+            sess.sendMessage(new TextMessage(session.getId() +" : "+ message.getPayload()));
+
         }
- 
-        /*
-         * Payload : 사용자가 보낸 메시지
-         */
-        logger.info(session.getId() + "님의 메시지 : " + message.getPayload());
+
     }
  
     /**
@@ -105,8 +94,10 @@ public class EchoHandler extends TextWebSocketHandler {
             }
         }
  
-        log.info(session.getId() + "님이 퇴장했습니다.");
+        logger.info(session.getId() + "님이 퇴장했습니다.");
     }
+
+
 }
 
 
