@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 이름이 겹치는 것을 방지하기 위해 자기 이름을 붙여서 사용해주세요. (ex) BoardMapperYuni.xml) -->
+<mapper namespace="com.yuni.persistence.BoardMapper">
+	<select id="getList" resultType="com.yuni.model.BoardVO">
+		SELECT * from tbl_board where bno >0 order by bno desc
+	</select>
+	
+	<insert id="regist">
+		insert into tbl_board (title, content, writer) values(#{title}, #{content} ,#{writer})
+	</insert>
+	
+	<select id="read" resultType="com.yuni.model.BoardVO">
+		select * from tbl_board where bno = #{bno}
+	</select>
+	
+	<update id="update">
+		update tbl_board set title =#{title}, content=#{content} where bno=#{bno}
+	</update>
+	
+	<delete id="delete">
+		delete from tbl_board where bno=#{bno}
+	</delete>
+	<select id="getListWithPaging" resultType="com.yuni.model.BoardVO">
+		<![CDATA[
+			select * from tbl_board where bno order by bno desc limit #{pageStart}, #{perPageNum}
+		
+		]]>
+	
+	
+	</select>
+</mapper>

@@ -10,7 +10,6 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
-import com.yuni.model.MessageVO;
 
 import lombok.extern.log4j.Log4j;
 
@@ -55,15 +54,11 @@ public class EchoHandler extends TextWebSocketHandler {
      */
     @Override
 
-    protected void handleTextMessage(WebSocketSession session,
+    protected void handleTextMessage(WebSocketSession session,TextMessage message) throws Exception {
 
-         
-
-        TextMessage message) throws Exception {
-
-
-        logger.info("{}로 부터 {} 받음", session.getId(), message.getPayload());
-
+        log.info(session.getId()+"로 부터 "+ message.getPayload()+" 받음");
+        System.out.println(session.getId()+"로 부터 "+ message.getPayload()+" 받음");
+        //전보한테 다 메세지를 보내는 작업 
         for(WebSocketSession sess : connectedUsers){
 
             sess.sendMessage(new TextMessage(session.getId() +" : "+ message.getPayload()));

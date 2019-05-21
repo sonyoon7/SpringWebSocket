@@ -12,7 +12,9 @@
 
 <script type="text/javascript">
 	$(document).ready(function() {
-		$("#sendBtn").click(function() {
+		$("#sendBtn").click(function(evt) {
+			evt.preventDefault();
+			if(sock.readyState!=1)return;
 			sendMessage();
 		});
 	});
@@ -45,13 +47,15 @@
 	//evt 파라미터는 웹소켓을 보내준 데이터다.(자동으로 들어옴)
 
 	function onMessage(evt) {
-		var data = evt.data;
+		var data = evt.data;//메세지를 받음
+		console.log(data);
 		$("#data").append(data + "<br/>");
 		//sock.close();
 	}
 
 	function onClose(evt) {
 		$("#data").append("연결 끊김");
+		console.log('Info: connection closed')
 	}
 </script>
 
