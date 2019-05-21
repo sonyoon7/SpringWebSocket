@@ -18,7 +18,7 @@
 
   <!-- Custom styles for this template-->
   <link href="${pageContext.request.contextPath}/resources/css/sb-admin-2.min.css" rel="stylesheet">
-	<link rel="stylesheet" href="/resources/css/board.css">
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/board.css">
 </head>
 
 <body class="bg-gradient-primary">
@@ -52,14 +52,14 @@
                 </div>
          		 <hr>
               <!--   <button class="btn btn-primary btn-user " data-oper="modify"> -->
-                 	<a href="/board/modify?bno=${board.bno }" class="btn btn-primary btn-user " >Modify</a> 
+                 	<a href="${pageContext.request.contextPath}/board/modify?bno=${board.bno }" class="btn btn-primary btn-user " >Modify</a> 
                <!--  </button > -->
                  <button class="btn btn-primary btn-user " data-oper="list">
-                  <a href="/board/listYuni" class="text-white" >List</a> 
+                  <a href="${pageContext.request.contextPath}/board/listYuni" class="text-white" >List</a> 
                 </button >
                 
                  <button class="btn btn-primary btn-user " data-oper="remove">
-                  <a href="/board/remove" class="text-white" >Remove</a> 
+                  <a href="${pageContext.request.contextPath}/board/remove" class="text-white" >Remove</a> 
                 </button >
                 <hr>
                
@@ -74,14 +74,14 @@
   </div>
 
   <!-- Bootstrap core JavaScript-->
-  <script src="/resources/vendor/jquery/jquery.min.js"></script>
-  <script src="/resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="${pageContext.request.contextPath}/resources/vendor/jquery/jquery.min.js"></script>
+  <script src="${pageContext.request.contextPath}/resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
   <!-- Core plugin JavaScript-->
-  <script src="/resources/vendor/jquery-easing/jquery.easing.min.js"></script>
+  <script src="${pageContext.request.contextPath}/resources/vendor/jquery-easing/jquery.easing.min.js"></script>
 
   <!-- Custom scripts for all pages-->
-  <script src="/resources/js/sb-admin-2.min.js"></script>
+  <script src="${pageContext.request.contextPath}/resources/js/sb-admin-2.min.js"></script>
   <script>
   	$(document).ready(function(){
   		
