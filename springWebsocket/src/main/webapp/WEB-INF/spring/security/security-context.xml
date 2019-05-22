@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:sec="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.2.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.3.xsd">
+	<!-- 이 영역에는 보안 설정을 안함   -->
+	<sec:http pattern="/include/**" security="none" />
+	<sec:http auto-config="true" use-expressions="true" create-session="never">
+		<!-- 관리자 영역 설정 -->
+		<sec:intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')"/>
+		<!-- 권한에 관계없이 접속 가능한 영역 (GUESTE도 접속 가능) -->
+		<sec:intercept-url pattern="/user/**" access="permitAll"/>
+		<!-- 로그인한 사용자 영역 -->
+		<sec:intercept-url pattern="/**" access="hasAnyRole('ROLE_USER','ROLE_TEST', 'ROLE_ADMIN', 'ROLE_GUEST')"/>
+		
+		<!-- 로그인 폼 -->
+		<sec:form-login login-page="/user/login"
+			login-processing-url="/user/login_check"
+			authentication-failure-handler-ref="userLoginSeccessHandler"
+			authentication-failure-url="userLoginFailureHandler"
+			username-parameter="userid"
+			password-parameter="passwd"/>
+			
+		<sec:session-management>
+			<!-- max-sessions=1 동시접속 막기 
+				error-if-maximum-exceeded=true 로그인 세션 초과시 에러 옵션 expire-url ="user/login" 세션 만료시 이동할 주소-->
+			<sec:concurrency-control max-sessions="1"
+				expired-url="/user/login" 
+				error-if-maximum-exceeded="true"/>
+		</sec:session-management>
+		
+		<!-- 로그아웃 관련 처리 -->
+		<sec:logout delete-cookies="JSESSIONID, SPRING_SECURITY_REMEMBER_ME_COOKIE" 
+			logout-success-url="/user/login"
+			logout-url="/user/logout"
+			invalidate-session="true"/>
+		
+		<!-- 접근 권한이 없는 경우의 코드  -->
+		<sec:access-denied-handler ref="UserDeniedHandler"/>		
+		<!-- 자동 로그인 관련 쿠키 저장, 세션이 종료된 후에도 자동 로그인 할 수 있는 기능 86400 1일, 604800 7일 -->
+		<sec:remember-me key="userKey"
+			token-validity-seconds="86400"/>			
+	</sec:http>
+	
+	<bean id="userDeniedHandler" class="com.yuni.security.service.UserDeniedHandler"/>
+	<bean id="userLoginSuccessHandler" class="com.yuni.security.service.UserLoginSuccessHandler"/>
+	<bean id="userLoginFailureHandler" class="com.yuni.security.service.UserLoginFailureHandler"/>
+	<!-- 로그인 인증을 처리하는 빈  -->
+	<bean id="userService" class="com.yuni.security.service.UserAuthenticationService">
+		<!-- <constructor-arg name="sqlSession" ref="sqlSession"/> -->
+	</bean>
+	
+	<!-- 사용자가 입력한 비밀번호를 암호화된 비밀번호와 체크하는 로직이 포함 -->
+	<sec:authentication-manager>
+		<sec:authentication-provider user-service-ref="userService">
+			<sec:password-encoder ref="passwordEncoder">
+				<sec:salt-source user-property="username"/>
+			</sec:password-encoder>
+		</sec:authentication-provider>
+	</sec:authentication-manager>
+	
+	<!-- 비밀번호 암호화 빈 -->
+	<bean id="passwordEncoder" class="org.springframework.security.authentication.encoding.ShaPasswordEncoder">
+		<constructor-arg name="strength" value="256"></constructor-arg>
+	</bean>
+	
+	
+	
+	
+	<!-- 정적인 리소스 파일들에는 보안 설정을 하지 않음  -->
+</beans>
