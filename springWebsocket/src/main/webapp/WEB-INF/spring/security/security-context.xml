@@ -51,7 +51,7 @@
 	<bean id="userLoginFailureHandler" class="com.yuni.security.service.UserLoginFailureHandler"/>
 	<!-- 로그인 인증을 처리하는 빈  -->
 	<bean id="userService" class="com.yuni.security.service.UserAuthenticationService">
-		<!-- <constructor-arg name="sqlSession" ref="sqlSession"/> -->
+		<constructor-arg name="sqlSession" ref="sqlSession"/>
 	</bean>
 	
 	<!-- 사용자가 입력한 비밀번호를 암호화된 비밀번호와 체크하는 로직이 포함 -->
