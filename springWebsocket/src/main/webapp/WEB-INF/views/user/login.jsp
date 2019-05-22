@@ -45,9 +45,16 @@
 	  </div>
 	
 	  <div class="container" style="background-color:#f1f1f1">
-	    <button type="button" class="cancelbtn">Cancel</button>
+	    <button type="button" class="cancelbtn" id="join">Join</button>
 	    <span class="psw">Forgot <a href="#">password?</a></span>
 	  </div>
 	</form>
+	<script>
+		$('#join').on('click', function(e){
+			e.preventDefault();
+			console.log()
+			location.href="${path}/user/join"
+		});
+	</script>
   </body> 
  </html>
