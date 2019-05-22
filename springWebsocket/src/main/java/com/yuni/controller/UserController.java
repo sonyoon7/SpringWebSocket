@@ -27,10 +27,13 @@ public class UserController {
 	
 	@RequestMapping("/user/login")
 	public String login() {
+		System.out.println("login 페이지로 이동");
+		log.info("login 페이지로 이동");
 		return "user/login";
 	}
 	@RequestMapping("/user/join")
 	public String join() {
+		System.out.println("join 페이지로 이동");
 		return "user/join";
 	}
 	@RequestMapping("/user/denied")
@@ -40,6 +43,7 @@ public class UserController {
 	
 	@RequestMapping("/user/insertUser")
 	public String insertUser(@RequestParam String userid, String passwd, String name, String authority) {
+		System.out.println(userid+", "+passwd+", "+name+", "+authority);
 //		@RequestParam 생략가능
 		log.info(userid+", "+passwd+", "+name+", "+authority);
 		String dbpw= shaEncoder.saltEncoding(passwd, userid);//비밀번호 : 키값(userid)
@@ -49,7 +53,7 @@ public class UserController {
 		map.put("name", name);
 		map.put("authority", authority);
 		int result =userDao.insertUser(map);
-		
+		System.out.println("insert User");
 		return "user/login";
 	}
 	
