@@ -7,7 +7,6 @@
   <title>Insert title here</title> 	
   	<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
   	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/login.css">
-	<link href="${pageContext.request.contextPath}/resources/css/sb-admin-2.min.css" rel="stylesheet">
   </head> 
   <body> 
   <c:set var="path" value="${pageContext.request.contextPath}"></c:set>
