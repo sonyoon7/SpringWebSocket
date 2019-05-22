@@ -20,8 +20,8 @@
 		<!-- 로그인 폼 -->
 		<sec:form-login login-page="/user/login"
 			login-processing-url="/user/login_check"
-			authentication-failure-handler-ref="userLoginSeccessHandler"
-			authentication-failure-url="userLoginFailureHandler"
+			authentication-success-handler-ref="userLoginSuccessHandler"
+			authentication-failure-handler-ref="userLoginFailureHandler"
 			username-parameter="userid"
 			password-parameter="passwd"/>
 			
@@ -40,7 +40,7 @@
 			invalidate-session="true"/>
 		
 		<!-- 접근 권한이 없는 경우의 코드  -->
-		<sec:access-denied-handler ref="UserDeniedHandler"/>		
+		<sec:access-denied-handler ref="userDeniedHandler"/>		
 		<!-- 자동 로그인 관련 쿠키 저장, 세션이 종료된 후에도 자동 로그인 할 수 있는 기능 86400 1일, 604800 7일 -->
 		<sec:remember-me key="userKey"
 			token-validity-seconds="86400"/>			
