@@ -4,12 +4,13 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.security.core.Authentication;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.yuni.model.UserDAO;
 import com.yuni.service.ShaEncoder;
-
+@Controller
 public class UserController {
 	@Inject
 	private ShaEncoder shaEncoder;
