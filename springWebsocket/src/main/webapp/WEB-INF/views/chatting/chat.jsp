@@ -1,9 +1,9 @@
+ <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%> 
+  <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
-<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<meta charset="utf-8">
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" type="text/css" rel="stylesheet"/>
  <link href="${pageContext.request.contextPath}/resources/css/chat.css" rel="stylesheet"/>
  
  <link href="${pageContext.request.contextPath}/resources/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -13,6 +13,9 @@
   <link href="${pageContext.request.contextPath}/resources/css/sb-admin-2.min.css" rel="stylesheet">
   <!-- Custom styles for this page -->
   <link href="${pageContext.request.contextPath}/resources/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+<%--   <script src="${pageContext.request.contextPath}/resources/js/chat/socket.js"></script> --%>
+ <script src="${pageContext.request.contextPath}/resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/sockjs/1/sockjs.min.js" ></script>
 </head>
 <body>
 <jsp:include page="../includes/header.jsp" flush="false"></jsp:include>
@@ -44,7 +47,7 @@
                 </div>
               </div>
             </div>
-            <div class="chat_list">
+<!--             <div class="chat_list">
               <div class="chat_people">
                 <div class="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
                 <div class="chat_ib">
@@ -63,47 +66,7 @@
                     astrology under one roof.</p>
                 </div>
               </div>
-            </div>
-            <div class="chat_list">
-              <div class="chat_people">
-                <div class="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
-                <div class="chat_ib">
-                  <h5>Sunil Rajput <span class="chat_date">Dec 25</span></h5>
-                  <p>Test, which is a new approach to have all solutions 
-                    astrology under one roof.</p>
-                </div>
-              </div>
-            </div>
-            <div class="chat_list">
-              <div class="chat_people">
-                <div class="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
-                <div class="chat_ib">
-                  <h5>Sunil Rajput <span class="chat_date">Dec 25</span></h5>
-                  <p>Test, which is a new approach to have all solutions 
-                    astrology under one roof.</p>
-                </div>
-              </div>
-            </div>
-            <div class="chat_list">
-              <div class="chat_people">
-                <div class="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
-                <div class="chat_ib">
-                  <h5>Sunil Rajput <span class="chat_date">Dec 25</span></h5>
-                  <p>Test, which is a new approach to have all solutions 
-                    astrology under one roof.</p>
-                </div>
-              </div>
-            </div>
-            <div class="chat_list">
-              <div class="chat_people">
-                <div class="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
-                <div class="chat_ib">
-                  <h5>Sunil Rajput <span class="chat_date">Dec 25</span></h5>
-                  <p>Test, which is a new approach to have all solutions 
-                    astrology under one roof.</p>
-                </div>
-              </div>
-            </div>
+            </div> -->
           </div>
         </div>
         <div class="mesgs">
@@ -155,10 +118,65 @@
           </div>
         </div>
       </div>
-      
+      </div>
+      </div>
       
       <p class="text-center top_spac"> Design by <a target="_blank" href="#">Sunil Rajput</a></p>
       
-    </div></div>
+    <jsp:include page="../includes/footer.jsp"></jsp:include>
+    
+    
+<script type="text/javascript">
+	$(document).ready(function() {
+		$(".msg_send_btn").click(function(evt) {
+			evt.preventDefault();
+			if(sock.readyState!=1)return;
+			sendMessage();
+		});
+	});
+
+	var sock;
+	//웸소켓을 지정한 url로 연결한다.
+	sock = new SockJS("<c:url value="/echo"/>");
+	//자바스크립트 안에 function을 집어넣을 수 있음.
+	//데이터가 나한테 전달되?쩜? 때 자동으로 실행되는 function
+	sock.onopen=function(){
+		console.log('Info: connection opend')
+	}
+			
+			
+	sock.onmessage = onMessage;
+
+	//데이터를 끊고싶을때 실행하는 메소드
+	sock.onclose = onClose;
+	sock.onerror=function(event){
+		console.log('Error: ',event)
+		
+	}
+
+
+	function sendMessage() {
+		/*소켓으로 보내겠다.  */
+		sock.send($(".write_msg").val());
+	}
+
+	//evt 파라미터는 웹소켓을 보내준 데이터다.(자동으로 들어옴)
+
+	function onMessage(evt) {
+		var data = evt.data;//메세지를 받음
+		console.log(data);
+		
+		
+		
+		
+		$(".mesgs").append(data + "<br/>");
+		//sock.close();
+	}
+
+	function onClose(evt) {
+		$(".mesgs").append("연결 끊김");
+		console.log('Info: connection closed')
+	}
+</script>
     </body>
     </html>
