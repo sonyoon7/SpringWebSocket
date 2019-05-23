@@ -38,10 +38,9 @@ public class UserAuthenticationService implements UserDetailsService {
 		System.out.println("-----------------------loadUserByUsername-----------------------------");
 		System.out.println(userid);
 		//여기를 통해서 세부 인증 처리가 됨 
+		//보기에는 id만 통해서 인증 처리 하는 것 같지만 내부적으로 비밀번호 체크까지 해줌 
 		Map<String, Object> user = sqlSession.selectOne("user.selectUser",userid);
 		System.out.println(user);
-		System.out.println(user==null);
-		System.out.println(user.get("authority").toString()+","+user.get("password").toString());
 		if(user==null) throw new UsernameNotFoundException(userid);
 		
 		List<GrantedAuthority> authority= new ArrayList<>();

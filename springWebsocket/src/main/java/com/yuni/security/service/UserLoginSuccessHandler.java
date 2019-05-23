@@ -19,7 +19,7 @@ public class UserLoginSuccessHandler implements AuthenticationSuccessHandler{
 			Authentication auth) throws IOException, ServletException {
 		//인증된 사용자의 정보 리턴 
 		UserDTO dto =(UserDTO) auth.getPrincipal();
-		
+		System.out.println(dto);
 		String msg= auth.getName()+"님 환영합니다.";
 		request.setAttribute("msg", msg);
 		
