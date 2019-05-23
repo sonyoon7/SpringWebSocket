@@ -55,7 +55,7 @@
                  	<a href="${pageContext.request.contextPath}/board/modify?bno=${board.bno }" class="btn btn-primary btn-user " >Modify</a> 
                <!--  </button > -->
                  <button class="btn btn-primary btn-user " data-oper="list">
-                  <a href="${pageContext.request.contextPath}/board/listYuni" class="text-white" >List</a> 
+                  <a href="${pageContext.request.contextPath}/board/Yuni" class="text-white" >List</a> 
                 </button >
                 
                  <button class="btn btn-primary btn-user " data-oper="remove">
