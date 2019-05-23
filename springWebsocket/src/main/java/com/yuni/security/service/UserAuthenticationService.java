@@ -6,14 +6,18 @@ import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
+import com.yuni.model.UserDTO;
+
 import lombok.extern.log4j.Log4j;
 @Log4j
 public class UserAuthenticationService implements UserDetailsService {
-	
+	//login-processing-url -> userDetailService를 구현한 클래스가 실행됨
 	private SqlSessionTemplate sqlSession;
 	
 	UserAuthenticationService(){}
@@ -26,19 +30,34 @@ public class UserAuthenticationService implements UserDetailsService {
 //	파라미터로 입력된 아이디값에 해당하는 테이블의 레코드를 읽어옴
 //	정보가 없으면 예외를 방생시킴
 //	정보가 있으면 해당 정보가 map(dto)로 리턴됨
+//UserDetailsService 의 loadUserByUsername method를 구현하는데 이는 Database에 접근해서 사용자 정보를 가져오는 역할을 한다.
+
 	
 	@Override
 	public UserDetails loadUserByUsername(String userid) throws UsernameNotFoundException {
+		System.out.println("-----------------------loadUserByUsername-----------------------------");
+		System.out.println(userid);
+		//여기를 통해서 세부 인증 처리가 됨 
 		Map<String, Object> user = sqlSession.selectOne("user.selectUser",userid);
-		log.info(user);
-		if(user==null )throw new UsernameNotFoundException(userid);
+		System.out.println(user);
+		System.out.println(user==null);
+		System.out.println(user.get("authority").toString()+","+user.get("password").toString());
+		if(user==null) throw new UsernameNotFoundException(userid);
+		
 		List<GrantedAuthority> authority= new ArrayList<>();
 		
 		//오라클은 필드명 대문자로 적어야 함..BIgInteger..
 		//(Integer)Integer.valueOf(user.get("ENABLED").toString())==1;
-		//authority.add(new SimpleGrantedAuthority(user.get("AUTHORITY").toString()));
-		
-		return null;
+		authority.add(new SimpleGrantedAuthority(user.get("authority").toString()));
+		//new UserDTO(username, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities, userid)
+		System.out.println("------------------------------------------------------------------------");
+		return new UserDTO(user.get("username").toString(),
+				user.get("password").toString(),
+				(Integer)Integer.valueOf(user.get("enabled").toString())==1,
+				true, 
+				true, 
+				true, authority, 
+				user.get("username").toString());
 	}
 
 }

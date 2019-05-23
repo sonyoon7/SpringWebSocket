@@ -18,6 +18,7 @@ public class ShaEncoder {
 	
 	//평문을 암호화하는 코드 
 	public String saltEncoding(String str, String salt) {//key 값을 먼저 준 다음에 암호화 시키는 방법
+		System.out.println(encoder.encodePassword(str,salt));
 		return encoder.encodePassword(str,salt);
 	}
 
