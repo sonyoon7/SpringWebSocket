@@ -56,13 +56,13 @@ public class EchoHandler extends TextWebSocketHandler {
     protected void handleTextMessage(WebSocketSession session,TextMessage message) throws Exception {
     	  Map<String,Object> map = session.getAttributes();
     	  String userid = (String)map.get("userid");
-    	  System.out.println("로그인 한 아이디 : " + userid);
+    	  System.out.println("로그인 한 아이디 : " + session.getPrincipal().getName());
     	
-    	  System.out.println(userid+"로 부터 "+ message.getPayload()+" 받음");
+    	  System.out.println(session.getPrincipal().getName()+"로 부터 "+ message.getPayload()+" 받음");
     	  System.out.println(session.getId()+"로 부터 "+ message.getPayload()+" 받음");
     	  //전보한테 다 메세지를 보내는 작업 
     	  for(WebSocketSession sess : connectedUsers){
-            sess.sendMessage(new TextMessage(session.getId() +" : "+ message.getPayload()));
+            sess.sendMessage(new TextMessage(session.getPrincipal().getName() +": "+ message.getPayload()));
     	  }
 
     }
