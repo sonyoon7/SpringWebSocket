@@ -1,23 +1,32 @@
  <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%> 
-  <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<html>
+<!DOCTYPE html>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<html lang="en">
+
 <head>
-<meta charset="utf-8">
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
- <link href="${pageContext.request.contextPath}/resources/css/chat.css" rel="stylesheet"/>
- 
- <link href="${pageContext.request.contextPath}/resources/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>SB Admin 2 - Tables</title>
+
+  <!-- Custom fonts for this template -->
+  <link href="${pageContext.request.contextPath}/resources/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
   <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
   <!-- Custom styles for this template -->
   <link href="${pageContext.request.contextPath}/resources/css/sb-admin-2.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/chat.css">
   <!-- Custom styles for this page -->
   <link href="${pageContext.request.contextPath}/resources/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
-<%--   <script src="${pageContext.request.contextPath}/resources/js/chat/socket.js"></script> --%>
- <script src="${pageContext.request.contextPath}/resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/sockjs/1/sockjs.min.js" ></script>
+	  <script src="https://cdn.jsdelivr.net/sockjs/1/sockjs.min.js" ></script>
+	  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 </head>
-<body>
+	<body>
 <jsp:include page="../includes/header.jsp" flush="false"></jsp:include>
 <div class="container">
 <h3 class=" text-center">Messaging</h3>
@@ -179,4 +188,4 @@
 	}
 </script>
     </body>
-    </html>
+</html>
